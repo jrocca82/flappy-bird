@@ -1,41 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class TextBehaviour : MonoBehaviour
 {
-    public bool gameStarted = false;
-
     public PlayerController deathHappened;
+
+    public ButtonHandler buttonAction;
+
+    public GameObject startButton;
+
+    public GameObject restartButton;
 
     void Update()
     {
-        if(gameStarted == true)
+        if (buttonAction.startGame == true)
         {
             PlayerStatus();
         }
-        if(deathHappened.playerDeath){
+        if (deathHappened.playerDeath == true)
+        {
             DeathText();
         }
-    }
-
-    public void ClickToStart()
-    {
-        gameStarted = true;
-        GameObject startButton = GameObject.Find("StartButton");
-        startButton.SetActive(false);
+        if (deathHappened.playerWin == true)
+        {
+            WinText();
+        }
     }
 
     void PlayerStatus()
     {
-        TMP_Text displayText = this.gameObject.GetComponent<TMP_Text> ();
+        TMP_Text displayText = this.gameObject.GetComponent<TMP_Text>();
         displayText.text = " ";
+        startButton.SetActive(false);
     }
 
     void DeathText()
     {
-        TMP_Text displayText = this.gameObject.GetComponent<TMP_Text> ();
+        TMP_Text displayText = this.gameObject.GetComponent<TMP_Text>();
         displayText.text = "You are dead. Try again, noob.";
+        restartButton.SetActive(true);
+    }
+
+    void WinText()
+    {
+        TMP_Text displayText = this.gameObject.GetComponent<TMP_Text>();
+        displayText.text = "Winner! Click to play again";
+        restartButton.SetActive(true);
     }
 }

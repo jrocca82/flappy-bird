@@ -6,7 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rBody;
     public TextBehaviour textScript;
+    public ButtonHandler buttonAction;
     public bool playerDeath = false;
+    public bool playerWin = false;
 
     void Start()
     {
@@ -15,11 +17,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (textScript.gameStarted == true)
+        if (buttonAction.startGame == true)
         {
             rBody.bodyType = RigidbodyType2D.Dynamic;
             PlayerInput();
             PlayerMovement();
+        }
+
+        if(playerWin == true){
+            rBody.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 
@@ -42,6 +48,8 @@ public class PlayerController : MonoBehaviour
         {
             playerDeath = true;
             Destroy(rBody);
+        } else if(collision.gameObject.tag == "Victory"){
+            playerWin = true;
         }
     }
 }
